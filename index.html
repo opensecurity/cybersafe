@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="appTitle">CyberSafe : Parcours de Maîtrise en Cybersécurité - 20 Niveaux</title>
+
+    <meta name="description"
+        content="Apprenez la cybersécurité gratuitement avec notre parcours interactif de 20 niveaux. Maîtrisez les bases, de la sécurité des mots de passe à la réponse aux incidents. Idéal pour les débutants.">
+    <meta name="keywords"
+        content="cybersécurité, apprendre la cybersécurité, cours gratuit cybersécurité, sécurité informatique, formation cybersécurité, phishing, malware, sécurité des réseaux, protection des données, authn, authz">
+    <meta name="author" content="Lucian BLETAN">
+    <meta name="theme-color" content="#4f46e5">
+    <meta http-equiv="Content-Language" content="fr">
+
+    <link rel="canonical" href="https://opensecurity.github.io/cybersafe">
+
+    <meta property="og:title" content="CyberSafe : Parcours de Maîtrise en Cybersécurité">
+    <meta property="og:description"
+        content="Un parcours d'apprentissage interactif et gratuit pour maîtriser les concepts fondamentaux de la cybersécurité.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://opensecurity.github.io/cybersafe">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CyberSafe : Parcours de Maîtrise en Cybersécurité">
+    <meta name="twitter:description"
+        content="Un parcours d'apprentissage interactif et gratuit pour maîtriser les concepts fondamentaux de la cybersécurité.">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cstyle%3E.bg { fill: %23eef2ff; } .fg { fill: %234f46e5; } @media (prefers-color-scheme: dark) { .bg { fill: %233730a3; } .fg { fill: %23e0e7ff; } }%3C/style%3E%3C/defs%3E%3Ccircle class='bg' cx='50' cy='50' r='50'/%3E%3Ctext x='50' y='50' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='50' font-weight='bold' text-anchor='middle' dominant-baseline='central' class='fg'%3ECS%3C/text%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --background-color: #f9fafb;
+            --container-bg-color: #ffffff;
+            --primary-color: #4f46e5;
+            --primary-hover-color: #4338ca;
+            --primary-active-color: #3730a3;
+            --primary-light-color: #e0e7ff;
+            --secondary-color: #6b7280;
+            --text-color: #111827;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --success-bg-color: #ecfdf5;
+            --error-color: #ef4444;
+            --error-bg-color: #fef2f2;
+            --locked-color: #9ca3af;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --border-radius: 0.75rem;
+            --transition-speed: 0.2s;
+            --transition-func: ease-in-out;
+            --transition-props: background-color, border-color, color, box-shadow, transform;
+            --container-max-width: 840px;
+            --spacing-unit: 16px;
+        }
+
+        html[data-theme='dark'] {
+            --background-color: #111827;
+            --container-bg-color: #1f2937;
+            --primary-light-color: #312e81;
+            --text-color: #e5e7eb;
+            --secondary-color: #9ca3af;
+            --border-color: #374151;
+            --locked-color: #4b5563;
+            --success-color: #34d399;
+            --success-bg-color: #052e16;
+            --error-color: #f87171;
+            --error-bg-color: #450a0a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            padding: 2rem 1rem;
+            transition: background-color var(--transition-speed) var(--transition-func), color var(--transition-speed) var(--transition-func);
+        }
+
+        .loader-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-color);
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid var(--primary-color);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .main-container {
+            max-width: 95%;
+            margin: auto;
+            background-color: var(--container-bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem 3rem;
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+            position: relative;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+            color: var(--text-color);
+            transition: color var(--transition-speed) var(--transition-func);
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            transition: border-color var(--transition-speed) var(--transition-func);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            transition: color var(--transition-speed) var(--transition-func);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: 1px solid transparent;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: var(--primary-hover-color);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .btn:active:not(:disabled) {
+            background-color: var(--primary-active-color);
+            transform: translateY(-1px);
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            background-color: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        html[data-theme='dark'] .btn:disabled {
+            background-color: #4b5563;
+            color: #9ca3af;
+        }
+
+        .btn-secondary {
+            background-color: var(--container-bg-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--background-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-exam {
+            background: linear-gradient(to right, #10b981, #14b8a6);
+            border-color: transparent;
+        }
+
+        .btn-exam:hover:not(:disabled) {
+            background: linear-gradient(to right, #059669, #0d9488);
+        }
+
+        .top-controls {
+            position: absolute;
+            top: 0.10rem;
+            right: 0.10rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            width: 37px;
+            height: 37px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--secondary-color);
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+        }
+
+        .control-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .control-btn:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light-color);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 1.1rem;
+            color: var(--secondary-color);
+            transition: color var(--transition-speed) var(--transition-func);
+        }
+
+        .form-input:focus-within~.input-icon,
+        .form-input:focus~.input-icon {
+            color: var(--primary-color);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .level-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .level-row {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background-color: var(--container-bg-color);
+        }
+
+        .level-row.unlocked:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+
+        .level-row.locked {
+            opacity: 0.6;
+        }
+
+        .level-row-num {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .level-row-main {
+            flex-grow: 1;
+        }
+
+        .level-row-main h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .level-row-main p {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .level-row-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-grow: 1;
+            text-align: right;
+        }
+
+        .status {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            text-align: center;
+        }
+
+        .status.certified {
+            background-color: var(--success-bg-color);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .status.locked {
+            background-color: var(--border-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-view-cert,
+        .btn-redo-level,
+        .btn-start-level {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+            width: auto;
+        }
+
+        .level-actions-certified {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .level-actions-certified-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .link-button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link-button:hover {
+            text-decoration: underline;
+        }
+
+        .module-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .module-item {
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--background-color);
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+        }
+
+        .module-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .module-header span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .module-progress {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-module {
+            width: 100%;
+            background-color: var(--border-color);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            width: 0%;
+            height: 100%;
+            background-color: var(--success-color);
+            transition: width 0.3s;
+        }
+
+        #exam-lock-reason {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-top: 1rem;
+            min-height: 1.2em;
+        }
+
+        #quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .progress-bar-quiz {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        #progress-indicator {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease-out;
+        }
+
+        #question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 2.5rem 0;
+            min-height: 3rem;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option-label {
+            display: block;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+        }
+
+        .option-label:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light-color);
+        }
+
+        .option-label input {
+            display: none;
+        }
+
+        .option-label.selected {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light-color);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .option-label.correct {
+            border-color: var(--success-color) !important;
+            background-color: var(--success-bg-color) !important;
+            font-weight: 600;
+        }
+
+        .option-label.incorrect {
+            border-color: var(--error-color) !important;
+            background-color: var(--error-bg-color) !important;
+            font-weight: 600;
+        }
+
+        #feedback-text {
+            min-height: 24px;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .level-actions {
+            margin-top: 2rem;
+        }
+
+        .results-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        #certificate_view_content {
+            border: 10px double var(--border-color);
+            padding: 2.5rem;
+            text-align: center;
+            background-color: var(--background-color);
+            transition: var(--transition-props) var(--transition-speed) var(--transition-func);
+        }
+
+        #cert_recipient {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0;
+            color: var(--primary-color);
+        }
+
+        #detailed-results-container {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .result-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+        }
+
+        .feedback-correct {
+            color: var(--success-color);
+        }
+
+        .feedback-incorrect {
+            color: var(--error-color);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .main-container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .top-controls {
+                top: 0.40rem;
+                right: 0.40rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .header>div,
+            .header>button {
+                width: 100%;
+            }
+
+            .level-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .level-row-main,
+            .level-row-actions {
+                width: 100%;
+            }
+
+            .level-row-actions {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .level-actions-certified {
+                align-items: stretch;
+            }
+
+            .level-actions-certified-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .level-actions-certified-buttons .btn {
+                width: 100%;
+            }
+
+            #certificate_view_content {
+                padding: 1.5rem;
+                border-width: 5px;
+            }
+
+            #cert_recipient {
+                font-size: 1.8rem;
+            }
+
+            #question-text {
+                font-size: 1.15rem;
+            }
+        }
+
+        .page-footer {
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 2) 0;
+            margin-top: calc(var(--spacing-unit) * 3);
+            font-size: 14px;
+            font-family: var(--font-mono);
+            color: var(--primary-color);
+        }
+
+        footer {
+            display: block;
+            unicode-bidi: isolate;
+        }
+
+        .page-footer a {
+            color: var(--primary-light-color);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            text-decoration: underline;
+            color: var(--primary-hover-color);
+        }
+    </style>
+
+    <script>
+        (function () {
+            try {
+                const appKey = 'cybersecurityMasteryPathV8';
+                const saved = localStorage.getItem(appKey);
+                let theme = 'light';
+
+                if (saved) {
+                    const progress = JSON.parse(saved);
+                    if (progress.theme) {
+                        theme = progress.theme;
+                    }
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = 'dark';
+                }
+
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                // Fails silently if localStorage is blocked.
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <div id="page-loader" class="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <noscript>
+        <h1>CyberSafe : Parcours de Maîtrise en Cybersécurité</h1>
+        <p>Apprenez la cybersécurité gratuitement avec notre parcours interactif de 20 niveaux. Maîtrisez les bases, de
+            la sécurité des mots de passe à la réponse aux incidents. Idéal pour les débutants.</p>
+
+        <nav>
+            <h2>Plan du Cours</h2>
+            <ul>
+                <li><a href="#level1">niveau 1 : le monde numérique</a></li>
+                <li><a href="#level2">niveau 2 : votre empreinte numérique</a></li>
+                <li><a href="#level3">niveau 3 : défenses quotidiennes</a></li>
+                <li><a href="#level4">niveau 4 : identifier les arnaques</a></li>
+                <li><a href="#level5">niveau 5 : vocabulaire de sécurité de base</a></li>
+                <li><a href="#level6">niveau 6 : le fonctionnement des sites web</a></li>
+                <li><a href="#level7">niveau 7 : communications web sécurisées</a></li>
+                <li><a href="#level8">niveau 8 : attaques courantes d'applications web</a></li>
+                <li><a href="#level9">niveau 9 : principes web défensifs</a></li>
+                <li><a href="#level10">niveau 10 : authentification & autorisation</a></li>
+                <li><a href="#level11">niveau 11 : sécurité du système d'exploitation</a></li>
+                <li><a href="#level12">niveau 12 : fondamentaux des réseaux</a></li>
+                <li><a href="#level13">niveau 13 : outils de défense réseau</a></li>
+                <li><a href="#level14">niveau 14 : sécurité sans fil</a></li>
+                <li><a href="#level15">niveau 15 : malware en profondeur</a></li>
+                <li><a href="#level16">niveau 16 : cryptographie appliquée</a></li>
+                <li><a href="#level17">niveau 17 : sécurité proactive & tests</a></li>
+                <li><a href="#level18">niveau 18 : réponse aux incidents</a></li>
+                <li><a href="#level19">niveau 19 : gestion des risques & conformité</a></li>
+                <li><a href="#level20">niveau 20 : architecture & stratégie de sécurité</a></li>
+            </ul>
+        </nav>
+
+        <article id="level1">
+            <h2>niveau 1 : le monde numérique</h2>
+            <p>les bases absolues de la façon dont nous nous connectons, communiquons et naviguons en ligne.</p>
+        </article>
+    </noscript>
+
+    <div class="main-container">
+        <div class="top-controls">
+            <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">☀️</button>
+            <button id="lang-toggle" class="control-btn" aria-label="Toggle language"
+                style="font-weight: bold; font-size: 1rem;"></button>
+        </div>
+
+        <div id="welcome-view" class="view">
+            <h1 data-i18n="welcomeH1"></h1>
+            <p class="subtitle" data-i18n="welcomeSubtitle"></p>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </span>
+                <input type="text" id="user-name-input" class="form-input" data-i18n-placeholder="namePlaceholder"
+                    maxlength="50">
+            </div>
+            <button id="start-journey-btn" class="btn" style="padding: 1rem; font-size: 1rem;"
+                data-i18n="startJourneyBtn" disabled></button>
+        </div>
+
+        <div id="dashboard-view" class="view">
+            <div class="header">
+                <div>
+                    <h1 id="dashboard-title" style="text-align: left; font-size: 1.75rem;"></h1>
+                    <p id="dashboard-subtitle" class="subtitle" style="text-align: left; margin-bottom: 0;"
+                        data-i18n="dashboardSubtitle"></p>
+                </div>
+                <button id="reset-progress-btn" class="btn btn-secondary" style="width: auto;"
+                    data-i18n="resetBtn"></button>
+            </div>
+            <div id="level-list-container" class="level-list"></div>
+        </div>
+
+        <div id="level-detail-view" class="view">
+            <button id="back-to-dashboard-link" class="link-button"><span style="font-size: 1.5rem;">&larr;</span> <span
+                    data-i18n="backToDashboard"></span></button>
+            <h2 id="level-detail-title"></h2>
+            <p id="level-detail-desc" class="subtitle" style="text-align: left;"></p>
+            <h3 data-i18n="practiceModules"></h3>
+            <p class="subtitle" style="font-size: 1rem; text-align: left;" data-i18n="practiceModulesDesc"></p>
+            <div id="module-list" class="module-list"></div>
+            <div class="level-actions"
+                style="border-top: 1px solid var(--border-color); margin-top: 2rem; padding-top: 2rem;">
+                <button id="start-exam-btn" class="btn btn-exam" disabled data-i18n="startExamBtn"></button>
+                <p id="exam-lock-reason" role="status" aria-live="polite"></p>
+            </div>
+        </div>
+
+        <div id="quiz-view" class="view">
+            <div id="quiz-header">
+                <span id="quiz-title"></span>
+                <span id="question-counter"></span>
+            </div>
+            <div class="progress-bar-quiz">
+                <div id="progress-indicator"></div>
+            </div>
+            <p id="question-text"></p>
+            <div id="options-container" class="options-grid"></div>
+            <div id="feedback-text" role="status" aria-live="polite"></div>
+            <div class="level-actions">
+                <button id="next-question-btn" class="btn" disabled data-i18n="nextBtn"></button>
+                <button id="finish-quiz-btn" class="btn btn-secondary" style="display: none;"
+                    data-i18n="finishPracticeBtn"></button>
+            </div>
+        </div>
+
+        <div id="results-view" class="view">
+            <h1 id="results-title"></h1>
+            <p id="results-subtitle" class="subtitle"></p>
+            <div id="detailed-results-container" style="display: none;">
+                <h2 style="text-align: center;" data-i18n="examReview"></h2>
+                <div id="detailed-results-section"></div>
+            </div>
+            <div class="results-actions">
+                <button id="show-details-btn" class="btn btn-secondary" style="display: none;"
+                    data-i18n="showResultsBtn"></button>
+                <button id="results-back-btn" class="btn" data-i18n="backToDashboard"></button>
+            </div>
+        </div>
+
+        <div id="certificate-view" class="view">
+            <button id="cert-back-to-dashboard-link" class="link-button"><span style="font-size: 1.5rem;">&larr;</span>
+                <span data-i18n="backToDashboard"></span></button>
+            <div id="certificate_view_content">
+                <h2 data-i18n="certAchievement"></h2>
+                <p class="subtitle" style="font-size: 1rem;" data-i18n="certAwardedTo"></p>
+                <p id="cert_recipient"></p>
+                <p class="subtitle" style="font-size: 1.1rem; margin-top: 2rem;" data-i18n="certForLevel"></p>
+                <h3 id="cert_level_name" style="font-size: 1.5rem;"></h3>
+                <p class="subtitle" style="margin-top: 2rem; font-size: 1rem;" id="cert_date"></p>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer">
+        <p>© 2025 <a href="https://github.com/opensecurity/cybersafe" target="_blank"
+                rel="noopener noreferrer">opensecurity/cybersafe</a></p>
+        <span aria-hidden="true" style="visibility: hidden; position: absolute; left: -9999px;">created by Lucian BLETAN
+        </span>
+    </footer>
+    <script src="https://crypt.fr/js/learn/cybersafe.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "CyberSafe : Parcours de Maîtrise en Cybersécurité",
+      "description": "Un parcours d'apprentissage interactif et gratuit pour maîtriser les concepts fondamentaux de la cybersécurité, des bases de la sécurité à la réponse aux incidents.",
+      "provider": {
+        "@type": "Organization",
+        "name": "opensecurity"
+      },
+      "hasCourseInstance": [
+        {
+          "@type": "Course",
+          "name": "Niveau 1 : Le Monde Numérique",
+          "description": "Les bases absolues de la façon dont nous nous connectons, communiquons et naviguons en ligne."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 2 : Votre Empreinte Numérique",
+          "description": "Comprendre la trace de données que vous laissez en ligne et ses implications pour la vie privée."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 3 : Défenses Quotidiennes",
+          "description": "Apprendre les défenses essentielles et proactives pour votre vie numérique quotidienne."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 4 : Identifier les Arnaques",
+          "description": "Apprendre à reconnaître et à éviter les pièges courants tendus par les cybercriminels."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 5 : Vocabulaire de Sécurité de Base",
+          "description": "Construire une base solide en apprenant le langage essentiel de la cybersécurité."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 6 : Le Fonctionnement des Sites Web",
+          "description": "Comprendre les technologies client-serveur fondamentales qui animent le World Wide Web."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 7 : Communications Web Sécurisées",
+          "description": "Se concentrer sur les protocoles et les certificats qui protègent la navigation web contre l'interception."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 8 : Attaques Courantes d'Applications Web",
+          "description": "Une introduction aux vulnérabilités les plus fréquentes trouvées dans les sites et applications web."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 9 : Principes Web Défensifs",
+          "description": "Apprendre les techniques de sécurité fondamentales utilisées pour construire des applications web sûres et prévenir les attaques."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 10 : Authentification & Autorisation",
+          "description": "Un regard ciblé sur les méthodes de vérification de l'identité (AuthN) et des permissions (AuthZ)."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 11 : Sécurité du Système d'Exploitation",
+          "description": "Sécuriser la fondation de tous les logiciels : le système d'exploitation (SE) de l'ordinateur."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 12 : Fondamentaux des Réseaux",
+          "description": "Apprendre les protocoles, les appareils et les concepts de base de la mise en réseau informatique."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 13 : Outils de Défense Réseau",
+          "description": "Explorer le matériel, les logiciels et les stratégies utilisés pour protéger les réseaux informatiques."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 14 : Sécurité Sans Fil",
+          "description": "Comprendre les défis uniques et les meilleures pratiques pour sécuriser les réseaux wi-fi."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 15 : Malware en Profondeur",
+          "description": "Un regard plus avancé sur la façon dont les différents types de malware opèrent, persistent et échappent à la détection."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 16 : Cryptographie Appliquée",
+          "description": "Apprendre comment les concepts cryptographiques fondamentaux sont utilisés pour construire des systèmes sécurisés."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 17 : Sécurité Proactive & Tests",
+          "description": "Découvrir les méthodes de sécurité offensive utilisées pour trouver et corriger les vulnérabilités avant les attaquants."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 18 : Réponse aux Incidents",
+          "description": "Apprendre l'approche structurée pour se préparer, détecter et gérer les violations de sécurité."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 19 : Gestion des Risques & Conformité",
+          "description": "Comprendre comment les organisations identifient, gèrent et atténuent les risques tout en adhérant aux réglementations."
+        },
+        {
+          "@type": "Course",
+          "name": "Niveau 20 : Architecture & Stratégie de Sécurité",
+          "description": "Maîtriser la conception de haut niveau, les principes et la pensée stratégique derrière les systèmes sécurisés."
+        }
+      ]
+    }
+    </script>
+
+</body>
+
+</html>
